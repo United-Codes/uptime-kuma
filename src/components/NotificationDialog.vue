@@ -258,7 +258,7 @@ export default {
                 "Cellsynt": "Cellsynt",
                 "SendGrid": "SendGrid",
                 "Brevo": "Brevo",
-                "notifery": "Notifery"
+                "notifery": "Notifery",
                 signal: "Signal",
                 slack: "Slack",
                 stackfield: "Stackfield",
