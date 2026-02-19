@@ -54,6 +54,7 @@ import Signal from "./Signal.vue";
 import SMSManager from "./SMSManager.vue";
 import SMSPartner from "./SMSPartner.vue";
 import Slack from "./Slack.vue";
+import SlackGroupSummary from "./SlackGroupSummary.vue";
 import Squadcast from "./Squadcast.vue";
 import SMSEagle from "./SMSEagle.vue";
 import Stackfield from "./Stackfield.vue";
@@ -141,6 +142,40 @@ const NotificationFormList = {
     PushPlus: PushPlus,
     pushy: Pushy,
     "rocket.chat": RocketChat,
+    "serwersms": SerwerSMS,
+    "signal": Signal,
+    "SIGNL4": SIGNL4,
+    "SMSManager": SMSManager,
+    "SMSPartner": SMSPartner,
+    "slack": Slack,
+    "SlackGroupSummary": SlackGroupSummary,
+    "squadcast": Squadcast,
+    "SMSEagle": SMSEagle,
+    "smtp": STMP,
+    "stackfield": Stackfield,
+    "teams": Teams,
+    "telegram": Telegram,
+    "threema": Threema,
+    "twilio": Twilio,
+    "Splunk": Splunk,
+    "SpugPush": SpugPush,
+    "webhook": Webhook,
+    "WeCom": WeCom,
+    "GoAlert": GoAlert,
+    "ServerChan": ServerChan,
+    "ZohoCliq": ZohoCliq,
+    "SevenIO": SevenIO,
+    "whapi": Whapi,
+    "evolution": Evolution,
+    "notifery": Notifery,
+    "waha": WAHA,
+    "gtxmessaging": GtxMessaging,
+    "Cellsynt": Cellsynt,
+    "WPush": WPush,
+    "SendGrid": SendGrid,
+    "Brevo": Brevo,
+    "YZJ": YZJ,
+    "SMSPlanet": SMSPlanet,
     serwersms: SerwerSMS,
     signal: Signal,
     SIGNL4: SIGNL4,

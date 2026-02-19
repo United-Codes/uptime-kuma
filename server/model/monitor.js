@@ -639,6 +639,7 @@ class Monitor extends BeanModel {
                     let res = await this.makeAxiosRequest(options);
 
                     bean.msg = `${res.status} - ${res.statusText}`;
+                    bean.response_headers = res.headers ? JSON.stringify(res.headers) : null;
                     bean.ping = dayjs().valueOf() - startTime;
 
                     // in the frontend, the save response is only shown if the saveErrorResponse is set
@@ -956,6 +957,10 @@ class Monitor extends BeanModel {
                 } else {
                     bean.msg = error.message;
                 }
+                if (error?.response?.headers) {
+                    bean.response_headers = JSON.stringify(error.response.headers);
+                }
+
 
                 if (this.getSaveErrorResponse() && error?.response?.data !== undefined) {
                     await this.saveResponseData(bean, error.response.data);
@@ -1506,6 +1511,17 @@ class Monitor extends BeanModel {
             // Prevent if the msg is undefined, notifications such as Discord cannot send out.
             if (!heartbeatJSON["msg"]) {
                 heartbeatJSON["msg"] = "N/A";
+            }
+
+            //if responseheader exit and has error_description, decode it and put it in error_description field for notification to use
+            if (heartbeatJSON["response_headers"] && typeof heartbeatJSON["response_headers"] === "string") {
+                try {
+                    const headers = JSON.parse(heartbeatJSON["response_headers"]);
+                    if (headers["error_description"]) {
+                        heartbeatJSON["error_description"] = Buffer.from(headers["error_description"], "base64").toString("utf8");
+                    }
+                } catch (e) {
+                }
             }
 
             // Also provide the time in server timezone

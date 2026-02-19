@@ -1,6 +1,7 @@
 const { UptimeKumaServer } = require("./uptime-kuma-server");
 const { clearOldData } = require("./jobs/clear-old-data");
 const { incrementalVacuum } = require("./jobs/incremental-vacuum");
+const { sendSlackGroupSummaries } = require("./jobs/slack-group-summary-job");
 const Cron = require("croner");
 
 const jobs = [
@@ -16,6 +17,12 @@ const jobs = [
         jobFunc: incrementalVacuum,
         croner: null,
     },
+    {
+        name: "slack-group-summary", //for group interval messages
+        interval: "* * * * *",
+        jobFunc: sendSlackGroupSummaries,
+        croner: null,
+    }
 ];
 
 /**
