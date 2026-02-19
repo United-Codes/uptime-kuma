@@ -75,7 +75,7 @@ class SlackGroupSummary extends NotificationProvider {
     async monitorBelongsToGroup(monitorId, groupId) {
         const monitor = await R.getRow(
             "SELECT id, parent FROM monitor WHERE id = ? AND active = 1",
-            [ monitorId ]
+            [monitorId]
         );
 
         if (!monitor) {
@@ -106,6 +106,7 @@ class SlackGroupSummary extends NotificationProvider {
             status: heartbeatJSON.status,
             ping: heartbeatJSON.ping,
             msg: heartbeatJSON.msg,
+            errorDescription: heartbeatJSON.error_description || null,
             time: heartbeatJSON.time || new Date().toISOString(),
             timezone: heartbeatJSON.timezone,
             localDateTime: heartbeatJSON.localDateTime
@@ -289,12 +290,12 @@ class SlackGroupSummary extends NotificationProvider {
             });
 
             let failedTable = "```\n";
-            failedTable += "Monitor Name".padEnd(35) + "Error\n";
+            failedTable += "Monitor Name".padEnd(35) + "Error Description\n";
             failedTable += "-".repeat(60) + "\n";
 
             for (const hb of failed) {
-                const name = (hb.monitorName || "Unknown").substring(0, 32).padEnd(35);
-                const error = (hb.msg || "Unknown error").substring(0, 25);
+                const name = hb.monitorName;
+                const error = hb.errorDescription || hb.msg;
                 failedTable += `${name}${error}\n`;
             }
             failedTable += "```";

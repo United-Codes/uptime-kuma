@@ -84,7 +84,7 @@ const sendSlackGroupSummaries = async () => {
             for (const monitor of monitors) {
                 // Get latest heartbeat for each monitor within the lookback window
                 const heartbeat = await R.getRow(`
-                    SELECT status, ping, msg, time
+                    SELECT status, ping, msg, time, response_headers
                     FROM heartbeat
                     WHERE monitor_id = ? AND time >= ?
                     ORDER BY time DESC
@@ -92,12 +92,24 @@ const sendSlackGroupSummaries = async () => {
                 `, [ monitor.id, lookbackDate ]);
 
                 if (heartbeat) {
+                    let errorDescription = null;
+                    if (heartbeat.response_headers && typeof heartbeat.response_headers === "string") {
+                        try {
+                            const headers = JSON.parse(heartbeat.response_headers);
+                            if (headers["error_description"]) {
+                                errorDescription = Buffer.from(headers["error_description"], "base64").toString("utf8");
+                            }
+                        } catch (e) {
+                        }
+                    }
+
                     heartbeatsArray.push({
                         monitorId: monitor.id,
                         monitorName: monitor.name,
                         status: heartbeat.status,
                         ping: heartbeat.ping,
                         msg: heartbeat.msg,
+                        errorDescription: errorDescription,
                         time: heartbeat.time,
                     });
                 } else {
