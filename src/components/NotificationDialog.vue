@@ -237,6 +237,7 @@ export default {
                 "rocket.chat": "Rocket.Chat",
                 signal: "Signal",
                 slack: "Slack",
+                "SlackGroupSummary": "Slack Group Summary",
                 stackfield: "Stackfield",
                 teams: "Microsoft Teams",
                 telegram: "Telegram",
