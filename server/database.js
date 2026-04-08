@@ -275,7 +275,6 @@ class Database {
                     // See: https://github.com/knex/knex/issues/3176#issuecomment-3389054899
                     min: 0,
                     max: 20,
-                    propagateCreateError: false,
                     acquireTimeoutMillis: acquireConnectionTimeout,
                     afterCreate: (rawConn, done) => {
                         this.initSQLite(rawConn, testMode)
@@ -598,12 +597,12 @@ class Database {
         let title = await setting("title");
 
         if (title) {
-            console.log("Migrating Status Page");
+            log.info("database", "Migrating Status Page");
 
             let statusPageCheck = await R.findOne("status_page", " slug = 'default' ");
 
             if (statusPageCheck !== null) {
-                console.log("Migrating Status Page - Skip, default slug record is already existing");
+                log.info("database", "Migrating Status Page - Skip, default slug record is already existing");
                 return;
             }
 
@@ -645,7 +644,7 @@ class Database {
                 await setSetting("entryPage", "statusPage-default", "general");
             }
 
-            console.log("Migrating Status Page - Done");
+            log.info("database", "Migrating Status Page - Done");
         }
     }
 
